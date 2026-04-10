@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شحن جواهر فري فايري</title>
+    <style>
+        :root {
+            --primary: #4b0082; 
+            --accent: #6a5acd; 
+            --bg: #0a0a20;    
+            --text-blue: #00d4ff; 
+            --success: #00b894;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: white;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #1e1e3f);
+            padding: 50px 20px;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px var(--accent);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: -30px auto 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(106, 90, 205, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--text-blue);
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #3d3d5c;
+            border-radius: 12px;
+            background: #161633;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .btn-charge {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.4s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-charge:hover:not(:disabled) {
+            transform: translateY(-3px);
+            filter: brightness(1.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #00ff88) !important;
+        }
+
+        #status {
+            margin-top: 25px;
+            padding: 15px;
+            display: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .footer { color: #5c5c8a; font-size: 0.85rem; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="logo-text">شحن جواهر فري فاير</h1>
+        <p style="color: #ccc;">أدخل بيانات حسابك بدقة لإتمام العملية</p>
+    </header>
+
+    <div class="container">
+        <div class="input-group">
+            <label>📧 البريد الإلكتروني:</label>
+            <input type="email" id="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <div class="input-group">
+            <label>🆔 معرف اللاعب (ID):</label>
+            <input type="text" id="playerid" placeholder="أدخل ID حسابك هنا...">
+        </div>
+
+        <div class="input-group">
+            <label>💎 اختر باقة الجواهر:</label>
+            <select id="diamonds">
+                <option>1,200 جوهرة</option>
+                <option>2,500 جوهرة</option>
+                <option>5,600 جوهرة</option>
+            </select>
+        </div>
+
+        <button class="btn-charge" id="mainBtn" onclick="startProcess()">تأكيد الشحن الآن</button>
+
+        <div id="status"></div>
+    </div>
+
+    <div class="footer">
+        جميع الحقوق محفوظة &copy; 2024
+    </div>
+
+    <script>
+        function startProcess() {
+            const email = document.getElementById('email').value;
+            const id = document.getElementById('playerid').value;
+            const status = document.getElementById('status');
+            const btn = document.getElementById('mainBtn');
+            
+            if(!email || !id) {
+                alert("يرجى ملء جميع الحقول!");
+                return;
+            }
+
+            // تعطيل الزر وبدء المعالجة
+            btn.disabled = true;
+            btn.innerText = "جاري التحقق...";
+            status.style.display = "block";
+            status.style.color = "#00d4ff";
+            status.style.background = "rgba(0,0,0,0.3)";
+            status.innerHTML = "🔄 جاري فحص معرف اللاعب (ID)...";
+
+            // المرحلة الأولى: إرسال الرمز
+            setTimeout(() => {
+                status.innerHTML = "📩 تم إرسال رمز التحقق إلى: " + email;
+                status.style.color = "#a29bfe";
+
+                // المرحلة النهائية: النجاح
+                setTimeout(() => {
+                    // إظهار اللافتة
+                    alert("تهانينا! تم الشحن بنجاح.");
+                    
+                    // تحديث الحالة والزر
+                    status.innerHTML = "✅ العملية اكتملت بنجاح!";
+                    status.style.color = "#00ff88";
+                    
+                    btn.innerText = "تم الشحن بنجاح";
+                    btn.classList.add("btn-success");
+                    
+                }, 3000);
+
+            }, 2500);
+        }
+    </script>
+
+</body>
+</html>
